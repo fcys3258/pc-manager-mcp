@@ -1,0 +1,342 @@
+# 工具元数据配置
+
+# 网络管理 (14个)
+clear_proxy_config:
+  category: network
+  tags: [proxy, network, config]
+
+flush_dns:
+  category: network
+  tags: [dns, cache, network]
+
+get_active_connections:
+  category: network
+  tags: [network, connections, monitor]
+
+get_dns_config:
+  category: network
+  tags: [dns, config, network]
+
+get_network_configuration_snapshot:
+  category: network
+  tags: [network, config, diagnostic]
+
+get_route_table:
+  category: network
+  tags: [network, routing, config]
+
+get_vpn_status:
+  category: network
+  tags: [vpn, network, status]
+
+get_wifi_details:
+  category: network
+  tags: [wifi, network, wireless]
+
+release_renew_ipconfig:
+  category: network
+  tags: [network, ip, dhcp]
+
+reset_network_stack:
+  category: network
+  tags: [network, reset, troubleshoot]
+
+reset_winhttp_proxy:
+  category: network
+  tags: [proxy, network, reset]
+
+test_connectivity:
+  category: network
+  tags: [network, ping, test]
+
+test_secure_channel:
+  category: network
+  tags: [network, domain, security]
+
+trace_network_route:
+  category: network
+  tags: [network, traceroute, diagnostic]
+
+# 系统信息 (10个)
+get_battery_status:
+  category: system_info
+  tags: [battery, power, hardware]
+
+get_bitlocker_status:
+  category: system_info
+  tags: [bitlocker, encryption, security]
+
+get_device_status:
+  category: system_info
+  tags: [device, hardware, status]
+
+get_disk_info:
+  category: system_info
+  tags: [disk, storage, space]
+
+get_firewall_status:
+  category: system_info
+  tags: [firewall, security, status]
+
+get_pnp_device_list:
+  category: system_info
+  tags: [device, hardware, pnp]
+
+get_system_specs:
+  category: system_info
+  tags: [system, hardware, info]
+
+get_temperature:
+  category: system_info
+  tags: [temperature, hardware, monitor]
+
+get_tpm_status:
+  category: system_info
+  tags: [tpm, security, hardware]
+
+get_usb_info:
+  category: system_info
+  tags: [usb, hardware, device]
+
+# 进程与服务管理 (8个)
+check_process_health:
+  category: process
+  tags: [process, health, monitor]
+
+get_process_cpu_time:
+  category: process
+  tags: [process, cpu, performance]
+
+get_running_processes:
+  category: process
+  tags: [process, monitor, list]
+
+get_service_status:
+  category: service
+  tags: [service, status, windows]
+
+kill_process:
+  category: process
+  tags: [process, terminate, dangerous]
+
+restart_service:
+  category: service
+  tags: [service, restart, windows]
+
+start_service:
+  category: service
+  tags: [service, start, windows]
+
+stop_service:
+  category: service
+  tags: [service, stop, windows]
+
+# 电源管理 (3个)
+get_active_power_plan:
+  category: power
+  tags: [power, plan, config]
+
+get_power_requests:
+  category: power
+  tags: [power, sleep, monitor]
+
+set_active_power_plan:
+  category: power
+  tags: [power, plan, config]
+
+# 打印机管理 (9个)
+cancel_print_job:
+  category: printer
+  tags: [printer, print, job]
+
+control_print_job:
+  category: printer
+  tags: [printer, print, job]
+
+get_printer_config:
+  category: printer
+  tags: [printer, config, settings]
+
+get_printer_queue:
+  category: printer
+  tags: [printer, queue, jobs]
+
+install_printer:
+  category: printer
+  tags: [printer, install, setup]
+
+list_printers:
+  category: printer
+  tags: [printer, list, devices]
+
+remove_printer:
+  category: printer
+  tags: [printer, remove, uninstall]
+
+set_default_printer:
+  category: printer
+  tags: [printer, default, config]
+
+set_printer_config:
+  category: printer
+  tags: [printer, config, settings]
+
+# 软件与应用 (4个)
+get_app_last_used_time:
+  category: software
+  tags: [software, app, usage]
+
+get_browser_extensions:
+  category: software
+  tags: [browser, extensions, software]
+
+get_installed_software:
+  category: software
+  tags: [software, installed, list]
+
+uninstall_software:
+  category: software
+  tags: [software, uninstall, remove]
+
+# 启动项管理 (3个)
+disable_startup_item:
+  category: startup
+  tags: [startup, disable, boot]
+
+enable_startup_item:
+  category: startup
+  tags: [startup, enable, boot]
+
+get_startup_items:
+  category: startup
+  tags: [startup, list, boot]
+
+# 文件操作 (5个)
+execute_cleanup_items:
+  category: file
+  tags: [file, cleanup, disk]
+
+get_directory_size:
+  category: file
+  tags: [file, directory, size]
+
+list_large_files:
+  category: file
+  tags: [file, large, disk]
+
+move_file_to_recycle_bin:
+  category: file
+  tags: [file, delete, recycle]
+
+scan_cleanup_items:
+  category: file
+  tags: [file, cleanup, scan]
+
+# 安全与更新 (5个)
+check_root_certificate:
+  category: security
+  tags: [security, certificate, ssl]
+
+force_gpupdate:
+  category: security
+  tags: [security, gpo, policy]
+
+get_antivirus_status:
+  category: security
+  tags: [security, antivirus, status]
+
+get_gpo_status:
+  category: security
+  tags: [security, gpo, policy]
+
+get_os_update_status:
+  category: security
+  tags: [security, update, windows]
+
+# 硬件与设备 (6个)
+enable_disable_device:
+  category: hardware
+  tags: [hardware, device, control]
+
+get_audio_service_status:
+  category: hardware
+  tags: [hardware, audio, service]
+
+get_monitor_topology:
+  category: hardware
+  tags: [hardware, monitor, display]
+
+list_camera_devices:
+  category: hardware
+  tags: [hardware, camera, device]
+
+reinstall_driver:
+  category: hardware
+  tags: [hardware, driver, install]
+
+reset_audio_service:
+  category: hardware
+  tags: [hardware, audio, reset]
+
+# 系统配置 (9个)
+delete_hosts_entry:
+  category: config
+  tags: [config, hosts, network]
+
+get_hosts_content:
+  category: config
+  tags: [config, hosts, network]
+
+get_local_admin_members:
+  category: config
+  tags: [config, admin, security]
+
+get_mic_privacy_settings:
+  category: config
+  tags: [config, privacy, microphone]
+
+get_pagefile_status:
+  category: config
+  tags: [config, memory, pagefile]
+
+get_password_expiry:
+  category: config
+  tags: [config, password, security]
+
+get_system_uptime:
+  category: config
+  tags: [config, system, uptime]
+
+get_user_context:
+  category: config
+  tags: [config, user, context]
+
+get_usb_storage_devices:
+  category: config
+  tags: [config, usb, storage]
+
+# 诊断工具 (5个)
+check_time_synchronization:
+  category: diagnostic
+  tags: [diagnostic, time, sync]
+
+get_bsod_history:
+  category: diagnostic
+  tags: [diagnostic, bsod, crash]
+
+get_event_log:
+  category: diagnostic
+  tags: [diagnostic, event, log]
+
+get_system_health_snapshot:
+  category: diagnostic
+  tags: [diagnostic, health, system]
+
+get_top_window:
+  category: diagnostic
+  tags: [diagnostic, window, ui]
+
+
+
+
+
