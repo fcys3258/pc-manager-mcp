@@ -58,26 +58,65 @@ class ToolRegistry:
 
     def _extract_description(self, content: str, tool_name: str) -> str:
         """提取工具描述"""
-        match = re.search(r'def\s+' + tool_name + r'\s*\([^)]*\):\s*"""(.*?)"""', content, re.DOTALL)
+        # 匹配三引号docstring
+        match = re.search(r'"""(.*?)"""', content[content.find(f'def {tool_name}'):], re.DOTALL)
         if match:
-            lines = [line.strip() for line in match.group(1).split('\n') if line.strip()]
-            return lines[0] if lines else f"执行 {tool_name}"
+            docstring = match.group(1).strip()
+            # 提取第一行非空内容作为描述
+            for line in docstring.split('\n'):
+                line = line.strip()
+                if line and not line.startswith('Args:') and not line.startswith('Returns:'):
+                    return line
         return f"执行 {tool_name}"
 
     def _extract_parameters(self, content: str, tool_name: str) -> List[Dict]:
         """提取参数信息"""
         params = []
-        match = re.search(r'def\s+' + tool_name + r'\s*\((.*?)\):', content, re.DOTALL)
-        if match:
-            param_block = match.group(1)
-            for line in param_block.split('\n'):
+
+        # 提取docstring中的参数描述
+        param_descriptions = {}
+        doc_match = re.search(r'Args:(.*?)(?:Returns:|""")', content, re.DOTALL)
+        if doc_match:
+            args_section = doc_match.group(1)
+            for line in args_section.split('\n'):
                 line = line.strip()
-                if ':' in line and not line.startswith('#'):
-                    parts = line.split(':')
-                    param_name = parts[0].strip()
-                    if param_name not in ['dry_run', 'script_path']:
-                        type_info = parts[1].split('=')[0].strip() if len(parts) > 1 else 'str'
-                        params.append({"name": param_name, "type": type_info})
+                # 匹配格式: param_name (type): description
+                param_match = re.match(r'(\w+)\s*\([^)]+\):\s*(.+)', line)
+                if param_match:
+                    param_descriptions[param_match.group(1)] = param_match.group(2).strip()
+
+        # 提取函数签名中的参数
+        match = re.search(r'def\s+' + tool_name + r'\s*\((.*?)\)\s*->', content, re.DOTALL)
+        if not match:
+            return params
+
+        param_block = match.group(1)
+
+        # 逐行解析参数
+        current_param = None
+        for line in param_block.split(','):
+            line = line.strip()
+            if not line or line.startswith('#'):
+                continue
+
+            # 提取参数名和类型
+            if ':' in line:
+                parts = line.split(':')
+                param_name = parts[0].strip()
+
+                # 跳过dry_run和script_path
+                if param_name in ['dry_run', 'script_path']:
+                    continue
+
+                type_part = parts[1].split('=')[0].strip() if len(parts) > 1 else 'str'
+                description = param_descriptions.get(param_name, '')
+
+                params.append({
+                    "name": param_name,
+                    "type": type_part,
+                    "description": description
+                })
+
         return params
 
     def _generate_schema(self, params: List[Dict]) -> Dict:
@@ -89,7 +128,12 @@ class ToolRegistry:
                 param_type = "integer"
             elif "bool" in param["type"].lower():
                 param_type = "boolean"
-            properties[param["name"]] = {"type": param_type}
+
+            prop = {"type": param_type}
+            if param.get("description"):
+                prop["description"] = param["description"]
+
+            properties[param["name"]] = prop
 
         return {
             "type": "object",
