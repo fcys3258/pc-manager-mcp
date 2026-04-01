@@ -78,12 +78,37 @@ class ToolRegistry:
         doc_match = re.search(r'Args:(.*?)(?:Returns:|""")', content, re.DOTALL)
         if doc_match:
             args_section = doc_match.group(1)
+            current_param = None
+            current_desc = []
+
             for line in args_section.split('\n'):
-                line = line.strip()
-                # 匹配格式: param_name (type): description
-                param_match = re.match(r'(\w+)\s*\([^)]+\):\s*(.+)', line)
-                if param_match:
-                    param_descriptions[param_match.group(1)] = param_match.group(2).strip()
+                line_stripped = line.strip()
+
+                # 匹配格式1: param_name (type): description
+                match1 = re.match(r'(\w+)\s*\([^)]+\):\s*(.+)', line_stripped)
+                if match1:
+                    if current_param:
+                        param_descriptions[current_param] = ' '.join(current_desc)
+                    current_param = match1.group(1)
+                    current_desc = [match1.group(2)]
+                    continue
+
+                # 匹配格式2: param_name: description
+                match2 = re.match(r'(\w+):\s*(.+)', line_stripped)
+                if match2 and not line_stripped.startswith('-'):
+                    if current_param:
+                        param_descriptions[current_param] = ' '.join(current_desc)
+                    current_param = match2.group(1)
+                    current_desc = [match2.group(2)]
+                    continue
+
+                # 续行描述
+                if current_param and line_stripped and line_stripped.startswith('-'):
+                    current_desc.append(line_stripped)
+
+            # 保存最后一个参数
+            if current_param:
+                param_descriptions[current_param] = ' '.join(current_desc)
 
         # 提取函数签名中的参数
         match = re.search(r'def\s+' + tool_name + r'\s*\((.*?)\)\s*->', content, re.DOTALL)
@@ -93,7 +118,6 @@ class ToolRegistry:
         param_block = match.group(1)
 
         # 逐行解析参数
-        current_param = None
         for line in param_block.split(','):
             line = line.strip()
             if not line or line.startswith('#'):
